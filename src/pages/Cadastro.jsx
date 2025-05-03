@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../firebase/config'; // Firebase já inicializado
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom'; // Importando o useNavigate
+import { firebaseConfig } from '../firebase/config'; // Certifique-se de que está importando a configuração
 
 const Cadastro = () => {
   const [email, setEmail] = useState('');
@@ -11,17 +12,20 @@ const Cadastro = () => {
   const [dataNascimento, setDataNascimento] = useState('');
   const [erro, setErro] = useState('');
 
+  const navigate = useNavigate(); // Hook para navegação
+
   const handleCadastro = async (e) => {
     e.preventDefault();
+    const auth = getAuth();
+    const db = getFirestore();
 
     try {
       // Criação do usuário com email e senha
       const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
       const user = userCredential.user;
 
-      // Salvar dados adicionais no Firestore com o UID
+      // Salvar dados adicionais no Firestore
       await setDoc(doc(db, 'usuarios', user.uid), {
-        uid: user.uid, // Aqui estamos salvando o UID
         nome,
         sobrenome,
         dataNascimento,
@@ -29,6 +33,9 @@ const Cadastro = () => {
       });
 
       alert('Cadastro realizado com sucesso!');
+
+      // Após o cadastro, redireciona para a página de Login
+      navigate('/login'); // Navegar para a página de Login
     } catch (error) {
       setErro(error.message);
     }
