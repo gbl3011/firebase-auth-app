@@ -3,6 +3,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom'; // Importando o useNavigate
 //import { firebaseConfig } from '../firebase/config'; // Certifique-se de que está importando a configuração
+import { auth, db } from '../firebase/config';
 
 const Cadastro = () => {
   const [email, setEmail] = useState('');
@@ -16,8 +17,6 @@ const Cadastro = () => {
 
   const handleCadastro = async (e) => {
     e.preventDefault();
-    const auth = getAuth();
-    const db = getFirestore();
 
     try {
       // Criação do usuário com email e senha
