@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom'; // Importando o useNavigate
 //import { firebaseConfig } from '../firebase/config'; // Certifique-se de que está importando a configuração
 import { auth, db } from '../firebase/config';
